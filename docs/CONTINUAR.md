@@ -8,11 +8,12 @@ seguida.
 ## Estado atual
 
 - **Fase 0 — Planejamento e arquitetura:** ✅ **concluída.**
-- **Fase 1 — Runtime mínimo:** ⬜ não iniciada.
+- **Fase 1 — Runtime mínimo:** 🔄 **em andamento** (spike de registro dinâmico criado).
 - **Fases 2–6:** ⬜ não iniciadas.
 
-Nenhum código foi implementado ainda (por decisão: não implementar antes de definir a
-arquitetura). Este repositório contém apenas documentação.
+O spike de registro dinâmico (maior risco técnico) foi **implementado**: projeto Gradle do
+Runtime, leitor de config, e registro de entity types/atributos/renderers via GeckoLib.
+**Ainda não foi compilado/testado** — a máquina atual não tem JDK/Gradle instalados.
 
 ## O que já foi decidido (resumo)
 
@@ -38,24 +39,44 @@ arquitetura). Este repositório contém apenas documentação.
 - [x] Roadmap incremental (Fases 0–6).
 - [x] Documentação criada em `docs/`.
 
+## Tarefas concluídas (Fase 1 — spike de registro dinâmico)
+
+- [x] Projeto Gradle do Runtime (`runtime/`) com NeoForge 21.1.264 + GeckoLib 4.9.3.
+- [x] `schemas/entity.schema.json` e `schemas/skill.schema.json`.
+- [x] Leitor de config (`MobForgeData`) — lê `config/mobforge/entities/*.json`.
+- [x] DTO `EntityDefinition` (mapeia o JSON de entidade).
+- [x] Registro dinâmico de `EntityType` (`MobForgeRegistries`).
+- [x] Registro de atributos via `EntityAttributeCreationEvent`.
+- [x] Registro de renderer GeckoLib (`MobForgeClientEvents` + `MobForgeRenderer`).
+- [x] Entidade base `MobForgeEntity` (melee + animação idle/walk).
+- [x] Modelo `MobForgeGeoModel` data-driven.
+- [x] Assets de exemplo (geo + animation + textura) e config de exemplo.
+
+## Pendências da Fase 1 (não iniciadas)
+
+- [ ] Compilar e validar o spike (requer JDK 21 + Gradle — não disponíveis nesta máquina).
+- [ ] Skill mínima (trigger + cooldown + ação de dano) com animação de ataque.
+- [ ] Spawn natural (biome modifiers) e loot.
+
 ## Pendências da Fase 0 (opcionais, sem bloqueio)
 
 - [ ] Definir licença do Runtime (sugestão MIT) e do Editor.
 - [ ] Confirmar versão exata do GeckoLib para NeoForge 1.21.1 no momento do spike.
 - [ ] (Se quiser) registrar os ADRs num formato/ferramenta dedicada (hoje: markdown).
 
-## Próximo passo concreto (início da Fase 1)
+## Próximo passo concreto
 
-**Primeira tarefa:** criar o **spike de registro dinâmico de entidades** — é o maior risco
-técnico e deve ser validado antes de tudo.
+**Compilar e validar o spike** — o código foi escrito, mas ainda não foi compilado/testado.
 
-Sequência recomendada:
+1. Instalar **JDK 21** (ou deixar o `foojay-resolver` baixá-lo via Gradle).
+2. Em `runtime/`: `gradle wrapper --gradle-version 8.13` e depois `gradlew build`.
+3. Corrigir eventuais erros de API (GeckoLib 4.9.3 / NeoForge 21.1.264).
+4. `gradlew runClient` + copiar `examples/config/mobforge/entities/test_dummy.json` para
+   `runtime/run/config/mobforge/entities/`.
+5. `/summon mobforge:test_dummy` → validar registro + render + melee.
 
-1. Criar o projeto Gradle do Runtime (`runtime/`) com NeoForge 21.1.x + GeckoLib 4.9.x.
-2. Escrever `schemas/entity.schema.json` e `schemas/skill.schema.json`.
-3. **Spike**: registrar dinamicamente um `EntityType`, seus atributos e um renderer
-   GeckoLib a partir de um JSON mínimo.
-4. Se o spike passar, evoluir para o MVP da Fase 1 (ver `MVP.md`).
+Se o registro dinâmico for validado, evoluir para o MVP da Fase 1: skill mínima (trigger +
+cooldown + ação de dano) com animação de ataque (ver `MVP.md`).
 
 ## Onde ler
 

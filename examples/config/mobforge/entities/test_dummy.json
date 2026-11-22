@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "test_dummy",
+  "displayName": "Test Dummy",
+  "category": "monster",
+  "sourceModId": "mobforge",
+  "model": {
+    "geo": "geo/test_dummy.geo.json",
+    "textures": { "default": "textures/entity/test_dummy.png" },
+    "animations": "animations/test_dummy.animation.json"
+  },
+  "dimensions": { "width": 1.0, "height": 1.8 },
+  "attributes": {
+    "maxHealth": 40.0,
+    "armor": 2.0,
+    "armorToughness": 0.0,
+    "attackDamage": 5.0,
+    "movementSpeed": 0.28,
+    "followRange": 32.0,
+    "knockbackResistance": 0.0
+  },
+  "combat": {
+    "hostile": true,
+    "melee": { "range": 2.0, "damage": 5.0, "attackCooldownTicks": 20 }
+  },
+  "skills": [],
+  "phases": []
+}

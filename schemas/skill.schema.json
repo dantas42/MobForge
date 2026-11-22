@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mobforge.dev/schemas/skill.schema.json",
+  "title": "MobForge Skill",
+  "type": "object",
+  "required": ["id", "trigger", "actions"],
+  "properties": {
+    "id": { "type": "string" },
+    "displayName": { "type": "string" },
+    "trigger": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": [
+            "on_attack",
+            "on_damaged",
+            "on_spawn",
+            "on_interval",
+            "on_phase_enter",
+            "on_target_acquire"
+          ]
+        },
+        "params": { "type": "object" }
+      }
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "enum": [
+              "health_below_pct",
+              "target_health_below_pct",
+              "distance",
+              "cooldown_ready",
+              "players_nearby",
+              "boss_phase",
+              "random_chance",
+              "valid_target"
+            ]
+          },
+          "params": { "type": "object" }
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "enum": [
+              "damage",
+              "apply_effect",
+              "heal",
+              "spawn_projectile",
+              "area_damage",
+              "summon",
+              "apply_knockback",
+              "teleport",
+              "explosion",
+              "melee_attack"
+            ]
+          },
+          "params": { "type": "object" }
+        }
+      }
+    },
+    "params": {
+      "type": "object",
+      "properties": {
+        "cooldownSeconds": { "type": "number", "minimum": 0, "default": 0 },
+        "priority": { "type": "integer", "default": 0 },
+        "animation": { "type": "string" },
+        "particles": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "target": {
+          "enum": ["nearest_player", "self", "random_player", "last_attacker"]
+        }
+      }
+    }
+  }
+}
